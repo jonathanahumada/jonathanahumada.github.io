@@ -1,0 +1,1233 @@
+=================================
+Modelo Relacional del Laboratorio
+=================================
+
+
+Resumen
+-------
+
+Este cuaderno muestra la funcionalidad de la base de datos relacional
+utilizada para el módulo **Laboratorio** del sistema de información de
+Rodam Análisis S.A.S. Las funcionalidades se muestran
+*independientemente* de la interfaz de usuario que luego se implemente
+sobre el modelo. Idealmente, el modelo deberá cumplir con todos los
+casos de uso, para luego pasar a la implemenación de su interfaz.
+
+Con este cuaderno tanto el *product owner* como el desarrollador podrán
+evaluar su comprensión mutua sobre el sistema y poner a prueba nuevas
+ideas.
+
+Documentos relacionados
+-----------------------
+
+-  La *Especificación de Requermientos* detalla los requrimientos y los
+   submódulos del laboratorio.
+-  El *Documento de Diseño* estudia las relaciones y las entidades del
+   módulo.
+
+Objetivo
+--------
+
+Evaluar el alcance y las limitaciones del *backend* del módulo
+Laboratorio.
+
+Como criterios para evaluar la idoneidad del modelo, propongo estas
+consideraciones:
+
+-  ¿las tablas permiten hacer las consultas que necesito en este
+   momento?
+-  ¿las tablas aseguran la integridad referencial de mi modelo?
+-  ¿parece posible extender el sistema con requerimientos que puedan
+   salir a futuro?
+
+Definiciones
+------------
+
+El *backend* está compuesto por dos capas. La primera de ellas es la
+**capa de la base de datos relacional**. La segunda de ellas es la
+**capa del ORM**, que mapea el modelo relacional al paradigma de
+orientación a objetos.
+
+Tanto en el desarrollo como en esta *prueba de aceptación* nos valdremos
+del **ORM**, por las ventajas que ofrece. Sin embargo, el **modelo
+relacional** es el cimiento del sistema. Por eso, la exposición vendrá
+acompañada de consultas directas a una instancia de base de datos
+``sqlite`` llamada ``aceptacion.bd``.
+
+Repaso por los casos de uso
+===========================
+
+Para consultar los casos de uso en mayor detalle, consultar la
+*Especificación de requerimientos* del módulo. El cuaderno seguirá el
+camino de las **dependencias secuenciales** esbozadas en ese documento.
+Un breve resumen del flujo de eventos del laboratorio sería:
+
+.. image:: diagramas/flujograma.png
+   :align: center
+
+Inicio del flujo
+================
+
+Primero, carguemos el módulo de Python con el dominio:
+
+.. code:: ipython3
+
+    %cd ~/.devs/
+    from rodam.modelos import Dominio
+    import rodam.conf as conf
+
+
+.. parsed-literal::
+
+    /Users/jaumaf/.devs
+
+
+Inventario
+==========
+
+Los objetos del Inventario son dependencias de los demás. Creemos
+entonces, los objetos del inventario:
+
+.. code:: ipython3
+
+    #ciudades
+    
+    bogota = Dominio.Ciudad(
+    id_ciudad = 1,
+    nom_ciudad = "Bogotá",
+        indicativo = 1
+    )
+    
+    medellin = Dominio.Ciudad(
+    nom_ciudad = "Medellín",
+    indicativo = 4,
+    id_ciudad = 2)
+    
+    # sectores
+    
+    farmaceutico = Dominio.Sector(
+        id_sector = 1,
+        nom_sector = "Farmaceutico"
+    )
+    
+    cosmetico = Dominio.Sector(
+    id_sector = 2,
+    nom_sector = "Cosmético")
+    
+    # origen
+    
+    prod_terminado = Dominio.Origen(
+    nom_origen = "Producto terminado",
+    id_origen = 1
+    )
+    
+    muestreo_planta = Dominio.Origen(
+    nom_origen = "Muestreo en planta",
+        id_origen = 2
+    )
+    
+    # empresas
+    conalcos = Dominio.Empresa(
+    id_empresa = 1,
+    nit_empresa = 90024,
+    nom_empresa = "Compañía Nacional de Cosméticos CONALCOS",
+    id_ciudad = bogota.id_ciudad,
+    pagina = "conalcos.com.co",
+    correo = "contacto@conalco.com.co",
+    direccion = "calle 34 Bis 39-33",
+    )
+    
+    remo = Dominio.Empresa(
+    id_empresa = 2,
+    nit_empresa = 90025,
+    nom_empresa = "Laboratorios REMO S.A.S",
+    id_ciudad = medellin.id_ciudad,
+    pagina = "labremo.com.co",
+    correo = "contacto@labremo.com.co",
+    direccion = "calle 54 11-22",
+    ) 
+    
+    #  clientes 
+    conalcos_cliente = Dominio.Cliente(
+    id_cliente = 1,
+    id_empresa = conalcos.id_empresa,
+    retencion = 0.14,
+    IVA = 0.15, 
+    ISA = 0.16,
+    ICA = 0.17,    
+    )
+    
+    remo_cliente = Dominio.Cliente(
+    id_cliente = 2,
+    id_empresa = remo.id_empresa,
+    retencion = 0.14,
+    IVA = 0.15,
+    ISA = 0.16,
+    ICA = 0.17)
+    
+    # cargos
+    
+    jefe_laboratorio = Dominio.Cargo(
+        id_cargo = 1,
+        nom_cargo= "Jefe de laboratorio",
+        observaciones = "No sabría que poner aquí"
+        
+    )
+    
+    jefe_calidad = Dominio.Cargo(
+        id_cargo = 2,
+        nom_cargo= "Jefe de calidad",
+        jefe = jefe_laboratorio.id_cargo,
+        reemplazo = "Jefe de laboratorio",
+        observaciones = "No sabría que poner aquí"
+        
+    )
+    
+    microbiologo = Dominio.Cargo(
+    id_cargo = 3,
+    nom_cargo = "Microbiólogo",
+    jefe = jefe_calidad.id_cargo,
+    observaciones = "No sabría que poner aquí"    
+        
+    )
+    
+    # equipos 
+    
+    cabina = Dominio.Equipo(
+    id_equipo = 1,
+    nom_equipo = "Cabina de flujo laminar",
+    ref_documental = "E001"
+    )
+    
+    micropipeta = Dominio.Equipo(
+    id_equipo = 2,
+    nom_equipo = "Micropipeta",
+    ref_documental = "E019",
+    )
+    
+    balanza = Dominio.Equipo (
+    id_equipo = 3,
+    nom_equipo = "Balanza",
+    ref_documental = "E020",
+    )
+    
+    incubadora = Dominio.Equipo(
+    id_equipo = 4, 
+        nom_equipo = "Incubadora",
+        ref_documental = "E010",
+    )
+    
+    caja_petri = Dominio.Equipo(
+    id_equipo = 5, 
+        nom_equipo = "Caja de Petri",
+        ref_documental = "E011",
+    )
+    
+    inventario = [bogota, medellin, cosmetico, farmaceutico,
+                 prod_terminado, muestreo_planta, conalcos,
+                 remo, conalcos_cliente, remo_cliente,
+                 jefe_laboratorio, jefe_calidad, 
+                 cabina, micropipeta, balanza, incubadora, 
+                 caja_petri]
+
+
+Ingreso de muestra
+==================
+
+Con el inventario listo, ahora realizaremos el proceso de Ingreso de
+Muestra. El elemento atómico de un analisis de laboratorio es un método.
+Debemos crear primero los métodos existentes en el laboratorio.
+
+.. code:: ipython3
+
+    # metodos 
+    
+    enriquecimiento = Dominio.Metodo(
+          id_metodo = 1,
+        nom_metodo = "Enriquecimiento",
+        desc_metodo = "5g de producto en 45 de TSB, incubar 24 h a 30-25 grados",
+        ref_documental = "IN006",
+        observaciones= "",
+        medio = "Agar TSA" ,
+        equipos = [cabina, balanza]
+    
+    )
+    
+    siembra_incub =  Dominio.Metodo(
+          id_metodo = 2,
+        nom_metodo = "Siembra e incubación",
+        desc_metodo = "Siembra en superficie: 0.1 ml en TSA, incubar 3 dias a 30-35ºC",
+        ref_documental = "IN007",
+        observaciones= "",
+        medio = "Agar Sabouraud",
+        equipos = [micropipeta, incubadora]
+    
+    )
+    
+    
+    conteo_petri =  Dominio.Metodo(
+          id_metodo = 3,
+        nom_metodo = "Conteo en caja de Petri",
+        desc_metodo = "Recuento en caja de petri",
+        ref_documental = "IN009",
+        observaciones= "",
+        medio = "Agar TSB",
+        equipos = [balanza, caja_petri]
+    
+    )
+    
+    diluc_neutralizacion = Dominio.Metodo(
+          id_metodo = 4,
+        nom_metodo = "Dilución - neutralización",
+        desc_metodo = "8 ml de producto (o solucion del producto)",
+        ref_documental = "IN010",
+        observaciones= "",
+        medio = "Solución neutralizante",
+        equipos = [balanza]  
+    
+    )
+    metodos = [enriquecimiento, siembra_incub, conteo_petri, diluc_neutralizacion]
+
+Creación de análisis
+--------------------
+
+Los analisis tienen muchos métodos. Así que podremos simplemente
+agregarlos al atributo ``metodos`` correspondiente:
+
+.. code:: ipython3
+
+    # Analisis
+    meso_aerob = Dominio.Analisis(
+    id_analisis = 1,
+    nom_analisis = "Recuento de Mesofilos Aeorobios",
+    id_sector = farmaceutico.id_sector,
+    ref_documental= "PR001",
+    metodos = [enriquecimiento, siembra_incub, conteo_petri]
+    )
+    
+    hongos_lev =  Dominio.Analisis(
+        id_analisis = 2,
+    nom_analisis = "Recuento de Hongos y Levaduras",
+    id_sector = farmaceutico.id_sector,
+    ref_documental= "PR002",
+    metodos = [enriquecimiento, siembra_incub, conteo_petri]
+    )
+    
+    e_coli = Dominio.Analisis(
+        id_analisis = 3,
+    nom_analisis = "Presencia de E. Choli",
+    id_sector = farmaceutico.id_sector,
+    ref_documental= "PR003",
+    metodos = [enriquecimiento, siembra_incub, conteo_petri]
+    )
+    
+    analisis = [meso_aerob, hongos_lev,e_coli]
+
+
+Pequeña muestra de los atributos de los objetos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Aquí podemos inspeccionar cualquier objeto que hemos creado en la
+sección. Por ejemplo:
+
+.. code:: ipython3
+
+    meso_aerob.nom_analisis
+
+
+
+
+.. parsed-literal::
+
+    'Recuento de Mesofilos Aeorobios'
+
+
+
+.. code:: ipython3
+
+    meso_aerob.id_sector
+
+
+
+
+.. parsed-literal::
+
+    1
+
+
+
+.. code:: ipython3
+
+    meso_aerob.metodos[0].nom_metodo
+
+
+
+
+.. parsed-literal::
+
+    'Enriquecimiento'
+
+
+
+.. code:: ipython3
+
+    e_coli.metodos[0] == meso_aerob.metodos[0] # dos analisis tienen el mismo método
+
+
+
+
+.. parsed-literal::
+
+    True
+
+
+
+Tablas correspondientes a las entidades
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hemos visto la creación de algunos objetos. Ahora veremos cómo se verán
+estos objetos reflejados en una base de datos. La capa del ORM es
+agnóstica a la base de datos subyacente. Por lo pronto utilizaremos
+``sqlite3`` en memoria.
+
+.. code:: ipython3
+
+    conf.Base.metadata.drop_all(conf.ACEPTACION_ENG)
+    conf.Base.metadata.create_all(conf.ACEPTACION_ENG)
+    session = conf.sessionmaker(bind=conf.ACEPTACION_ENG)
+
+.. code:: ipython3
+
+    sesion = session()
+
+Primero agregemos los objetos del inventario a base de datos:
+
+.. code:: ipython3
+
+    sesion.add_all(inventario)
+
+.. code:: ipython3
+
+    sesion.commit()
+
+
+Ahora inspeccionemos directamente la base de datos:
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db 'select * from equipo;'
+
+
+.. parsed-literal::
+
+    id_equipo  nom_equipo               ref_documental
+    ---------  -----------------------  --------------
+    1          Cabina de flujo laminar  E001          
+    2          Micropipeta              E019          
+    3          Balanza                  E020          
+    4          Incubadora               E010          
+    5          Caja de Petri            E011          
+
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db 'select * from cliente;'
+
+
+.. parsed-literal::
+
+    id_cliente  id_empresa  nom_cliente  retencion  IVA   ISA   ICA   fecha_inicio                fecha_final  descripcion
+    ----------  ----------  -----------  ---------  ----  ----  ----  --------------------------  -----------  -----------
+    1           1                        0.14       0.15  0.16  0.17  2021-01-21 16:14:01.043541                          
+    2           2                        0.14       0.15  0.16  0.17  2021-01-21 16:14:01.043554                          
+
+
+.. code:: ipython3
+
+    sesion.add_all(metodos)
+    sesion.add_all(analisis)
+    sesion.commit()
+
+.. code:: ipython3
+
+    !sqlite3 rodam/aceptacion.db 'select * from analisis;'
+
+
+.. parsed-literal::
+
+    1|Recuento de Mesofilos Aeorobios|1||PR001
+    2|Recuento de Hongos y Levaduras|1||PR002
+    3|Presencia de E. Choli|1||PR003
+
+
+Ingreso de un producto
+----------------------
+
+Ingresar un producto es un proceso complejo, pues enlaza muchos objetos
+del Dominio.
+
+Un requisito de Ingresar Producto es que el producto quede asociado con
+una serie de especificaciones. Las especificaciones dictaminan qué serie
+de analisis se harán sobre el producto y qué resultados se esperan de
+esos analisis. Además, las especificaciones se deben poder agrupar.
+
+Primero empecemos con la creación de un producto:
+
+.. code:: ipython3
+
+    xinefax = Dominio.Producto(
+    id_producto= 1,                    
+    nom_producto = "Xinefax" ,           # libre
+    forma_farmaceutica = "Emulsión",     # libre
+    id_sector = farmaceutico.id_sector,  # dependencia    
+    id_cliente = conalcos_cliente.id_cliente
+    )
+    sesion.add(xinefax)
+    sesion.commit()
+
+Para añadirle analisis al producto, es neceario primero crear grupos de
+analisis.
+
+.. code:: ipython3
+
+    grupo_control  = Dominio.Grupo(
+    id_grupo = 1,
+    id_producto = xinefax.id_producto,
+    nom_grupo = "Grupo de control",
+    desc_grupo = "Este grupo servirá de control"
+    )
+    
+    grupo_exp = Dominio.Grupo(
+    id_grupo = 2,
+    id_producto = xinefax.id_producto,
+    nom_grupo = "Grupo de experimentación" ,   
+    desc_grupo= "A este grupo le hacemos cosas éticamente cuestionables"
+        
+    )
+
+.. code:: ipython3
+
+    sesion.add_all([grupo_control, grupo_exp])
+    sesion.commit()
+
+.. code:: ipython3
+
+    !sqlite3 rodam/aceptacion.db 'select * from grupo;'
+
+
+.. parsed-literal::
+
+    1|1|Grupo de control|Este grupo servirá de control
+    2|1|Grupo de experimentación|A este grupo le hacemos cosas éticamente cuestionables
+
+
+La codificación de las especificaciones
+---------------------------------------
+
+La especificación será el objeto más dependiente de todos, pues asocia
+un producto, un grupo, un analisis y un método con un valor de la
+especificación.
+
+Entonces, para crear una especificación, se deberá conocer los metodos
+de cáda analisis, así como los grupos que queremos formar.
+
+.. code:: ipython3
+
+    
+    # Grupo control - Recuento de mesofilos 
+    
+    mesofilos_enriq_grupo_control = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_control.id_grupo,  # grupo existente
+    id_analisis= meso_aerob.id_analisis, # analisis existente
+    id_metodo = enriquecimiento.id_metodo,# metodo_existente
+    descripcion =  "< 100 ufc"   
+    )
+    
+    
+    mesofilos_siembra_grupo_control = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_control.id_grupo,  # grupo existente
+    id_analisis= meso_aerob.id_analisis, # analisis existente
+    id_metodo = siembra_incub.id_metodo, # metodo_existente
+    descripcion =  "< 100 ufc"   
+    )
+    
+    
+    mesofilos_petri_grupo_control = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_control.id_grupo,  # grupo existente
+    id_analisis= meso_aerob.id_analisis, # analisis existente
+    id_metodo = conteo_petri.id_metodo,  # metodo_existente
+    descripcion =  "< 100 ufc"   
+    )
+    
+    especificaciones_grupo_control = [mesofilos_enriq_grupo_control,
+                                     mesofilos_siembra_grupo_control,
+                                     mesofilos_petri_grupo_control]
+
+
+.. code:: ipython3
+
+    # Grupo experimentación - Recuento mesofilos
+    
+    
+    
+    mesofilos_enriq_grupo_exp = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_exp.id_grupo,  # grupo existente
+    id_analisis= meso_aerob.id_analisis, # analisis existente
+    id_metodo = enriquecimiento.id_metodo,# metodo_existente
+    descripcion =  "< 200 ufc"   
+    )
+    
+    
+    mesofilos_siembra_grupo_exp = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_exp.id_grupo,  # grupo existente
+    id_analisis= meso_aerob.id_analisis, # analisis existente
+    id_metodo = siembra_incub.id_metodo, # metodo_existente
+    descripcion =  "< 10 ufc"   
+    )
+    
+    
+    mesofilos_petri_grupo_exp = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_exp.id_grupo,  # grupo existente
+    id_analisis= meso_aerob.id_analisis, # analisis existente
+    id_metodo = conteo_petri.id_metodo,  # metodo_existente
+    descripcion =  "< 140 ufc"   
+    )
+    
+    
+    # Grupo experimentaciín - hongos y levaduras 
+    
+    
+    hongos_enriq_grupo_exp = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_exp.id_grupo,  # grupo existente
+    id_analisis= hongos_lev.id_analisis, # analisis existente
+    id_metodo = enriquecimiento.id_metodo,# metodo_existente
+    descripcion =  "< 40 ufc"   
+    )
+    
+    
+    hongos_siembra_grupo_exp = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_exp.id_grupo,  # grupo existente
+    id_analisis= hongos_lev.id_analisis, # analisis existente
+    id_metodo = siembra_incub.id_metodo, # metodo_existente
+    descripcion =  "< 10 ufc"   
+    )
+    
+    
+    hongos_petri_grupo_exp = Dominio.Especificacion(
+    id_producto = xinefax.id_producto,   # producto existente
+    id_grupo =  grupo_exp.id_grupo,  # grupo existente
+    id_analisis= hongos_lev.id_analisis, # analisis existente
+    id_metodo = conteo_petri.id_metodo,  # metodo_existente
+    descripcion =  "< 230 ufc"   
+    )
+    
+    
+    
+    
+    especificaciones_grupo_exp = [mesofilos_enriq_grupo_exp,
+                                     mesofilos_siembra_grupo_exp,
+                                     mesofilos_petri_grupo_exp,
+                                  hongos_enriq_grupo_exp,
+                                     hongos_siembra_grupo_exp,
+                                     hongos_petri_grupo_exp]
+
+
+.. code:: ipython3
+
+    sesion.add_all(especificaciones_grupo_control)
+
+.. code:: ipython3
+
+    sesion.add_all(especificaciones_grupo_exp)
+
+.. code:: ipython3
+
+    sesion.commit()
+
+Ahora veámos como se ve la tabla de especificaciones:
+
+.. code:: ipython3
+
+    !sqlite3 -header -column  rodam/aceptacion.db 'select * from especificacion;'
+
+
+.. parsed-literal::
+
+    id_producto  id_metodo  id_analisis  id_grupo  descripcion
+    -----------  ---------  -----------  --------  -----------
+    1            1          1            1         < 100 ufc  
+    1            2          1            1         < 100 ufc  
+    1            3          1            1         < 100 ufc  
+    1            1          1            2         < 200 ufc  
+    1            2          1            2         < 10 ufc   
+    1            3          1            2         < 140 ufc  
+    1            1          2            2         < 40 ufc   
+    1            2          2            2         < 10 ufc   
+    1            3          2            2         < 230 ufc  
+
+
+Hagamos una consulta un poco más elaborada para visualizar mejor las
+relaciones:
+
+.. code:: sql
+
+   select nom_producto,nom_analisis, nom_metodo, nom_grupo, especificacion.descripcion from producto, analisis, metodo, grupo, especificacion where  producto.id_producto = especificacion.id_producto and analisis.id_analisis = especificacion.id_analisis and metodo.id_metodo = especificacion.id_metodo and grupo.id_grupo =especificacion.id_grupo;
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db 'select nom_producto,nom_analisis, nom_metodo, nom_grupo, especificacion.descripcion from producto, analisis, metodo, grupo, especificacion where  producto.id_producto = especificacion.id_producto and analisis.id_analisis = especificacion.id_analisis and metodo.id_metodo = especificacion.id_metodo and grupo.id_grupo =especificacion.id_grupo;'
+
+
+.. parsed-literal::
+
+    nom_producto  nom_analisis                     nom_metodo               nom_grupo                 descripcion
+    ------------  -------------------------------  -----------------------  ------------------------  -----------
+    Xinefax       Recuento de Mesofilos Aeorobios  Enriquecimiento          Grupo de control          < 100 ufc  
+    Xinefax       Recuento de Mesofilos Aeorobios  Siembra e incubación     Grupo de control          < 100 ufc  
+    Xinefax       Recuento de Mesofilos Aeorobios  Conteo en caja de Petri  Grupo de control          < 100 ufc  
+    Xinefax       Recuento de Mesofilos Aeorobios  Enriquecimiento          Grupo de experimentación  < 200 ufc  
+    Xinefax       Recuento de Mesofilos Aeorobios  Siembra e incubación     Grupo de experimentación  < 10 ufc   
+    Xinefax       Recuento de Mesofilos Aeorobios  Conteo en caja de Petri  Grupo de experimentación  < 140 ufc  
+    Xinefax       Recuento de Hongos y Levaduras   Enriquecimiento          Grupo de experimentación  < 40 ufc   
+    Xinefax       Recuento de Hongos y Levaduras   Siembra e incubación     Grupo de experimentación  < 10 ufc   
+    Xinefax       Recuento de Hongos y Levaduras   Conteo en caja de Petri  Grupo de experimentación  < 230 ufc  
+
+
+Ingreso de una muestra
+----------------------
+
+Una vez ingresado el ``xinefax``, con sus respectivas especificaciones,
+el microbiologo (¿es solo el microbiologo) puede ahora ingresar una
+*muestra* de ese producto. Un producto podra tener muchas muestras, pero
+como las especificaciones están asociadas al producto, no se tendrá que
+repetir el proceso de espeificación.
+
+.. code:: ipython3
+
+    
+    # Creo que en el proceso de laboratorio alguien es responsable del ingreso de la muestra
+    # Voy a inventar a alguien por el momento que quede asociado al ingreso de muestra.
+    
+    ernesto_segura = Dominio.MiembroRodam(
+    id_miembro = 3,
+    nom_miembro = "Ernesto Segura",
+    id_cargo = jefe_calidad.id_cargo)
+    
+    
+    muestra = Dominio.Muestra(
+    id_muestra = 1,
+    id_producto = xinefax.id_producto,
+    id_origen = muestreo_planta.id_origen,
+    presentacion = 'tabletas',
+    lote_muestra = "12345",
+    tamano_muestra= 500,
+    unidades_tamano = "mg",
+    registra = ernesto_segura.id_miembro
+        
+    )
+
+.. code:: ipython3
+
+    sesion.add(ernesto_segura)
+    sesion.add(muestra)
+    sesion.commit()
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db 'select id_muestra as id, id_producto as prod, id_origen as orig, presentacion as pres, lote_muestra as lote, tamano_muestra as tamaño, ingreso_muestra as ingreso, registra from muestra;'
+
+
+.. parsed-literal::
+
+    id  prod  orig  pres      lote   tamaño  ingreso                     registra
+    --  ----  ----  --------  -----  ------  --------------------------  --------
+    1   1     2     tabletas  12345  500     2021-01-21 16:14:57.105971  3       
+
+
+Ingreso de lectura
+------------------
+
+Viendo las especificaciones del ``xinefax``, el microbiólogo ha corrido
+cuidadosamente cada uno de los métodos de laboratorio asociados a ese
+producto. Es hora, entonces,de crear una lectura. Para ingresar una
+lectura, necesitamos ser un MiembroRodam. Primero creemoslo.
+
+.. code:: ipython3
+
+    yuli_largo = Dominio.MiembroRodam(
+    id_miembro = 1,
+    nom_miembro = "Yuli Largo",
+    id_cargo = microbiologo.id_cargo
+    )
+    
+    daniel_arias = Dominio.MiembroRodam(
+    id_miembro= 2,
+    nom_miembro = "Daniel Arias",
+    id_cargo = jefe_laboratorio.id_cargo )
+    
+
+
+.. code:: ipython3
+
+    
+    sesion.add_all([yuli_largo, daniel_arias])
+    sesion.commit()
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db 'select * from miembro_rodam;'
+
+
+.. parsed-literal::
+
+    id_miembro  nom_miembro     id_cargo  ingreso  salida
+    ----------  --------------  --------  -------  ------
+    1           Yuli Largo      3                        
+    2           Daniel Arias    1                        
+    3           Ernesto Segura  2                        
+
+
+Afortunadamente, dentro de la sesión interactiva de este cuaderno ya
+tenemos referencias a cada uno de los métodos. Por facilidad,
+utilizaremos estas referencias en vez de consultar la base de datos
+nuevamente:
+``mesofilos_enriq_grupo_control``,\ ``mesofilos_siembra_grupo_control``,
+``mesofilos_petri_grupo_control``, ``mesofilos_enriq_grupo_exp``,
+``mesofilos_siembra_grupo_ex``,\ ``mesofilos_petri_grupo_ex``,
+``hongos_enriq_grupo_exp,hongos_siembra_grupo_ex``,
+``hongos_petri_grupo_ex``
+
+.. code:: ipython3
+
+    # para grupo control 
+    lectura1 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra,
+    id_producto = muestra.id_producto,
+    id_analisis = mesofilos_enriq_grupo_control.id_analisis,
+    id_metodo = mesofilos_enriq_grupo_control.id_metodo,
+    id_grupo = mesofilos_enriq_grupo_control.id_grupo,
+    valor_lectura = "112 ufc",
+    lote_medio = "M314-20",
+    registra = yuli_largo.id_miembro,
+    concepto = False
+    
+    )
+    
+    lectura2 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra,
+    id_producto = muestra.id_producto,
+    id_analisis = mesofilos_siembra_grupo_control.id_analisis,
+    id_metodo = mesofilos_siembra_grupo_control.id_metodo,
+    id_grupo = mesofilos_siembra_grupo_control.id_grupo,
+    valor_lectura = "211 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M315-20",
+        concepto = False
+    
+    )
+    lectura3 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra,   
+    id_producto = muestra.id_producto,
+    id_analisis = mesofilos_petri_grupo_control.id_analisis,
+    id_metodo = mesofilos_petri_grupo_control.id_metodo,
+    id_grupo = mesofilos_petri_grupo_control.id_grupo,
+    valor_lectura = "211 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M316-20",
+    concepto = False
+    
+    # para grupo experimental
+    )
+    lectura4 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra, 
+    id_producto = muestra.id_producto,
+    id_analisis = mesofilos_enriq_grupo_exp.id_analisis,
+    id_metodo = mesofilos_enriq_grupo_exp.id_metodo,
+    id_grupo = mesofilos_enriq_grupo_exp.id_grupo,
+    valor_lectura = "40 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M314-21",
+        concepto = True
+    
+    )
+    lectura5 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra, 
+    id_producto = muestra.id_producto,
+    id_analisis = mesofilos_siembra_grupo_exp.id_analisis,
+    id_metodo = mesofilos_siembra_grupo_exp.id_metodo,
+    id_grupo = mesofilos_siembra_grupo_exp.id_grupo,
+    valor_lectura = "20 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M315-21",
+    concepto = False # si es con strings tendrá que ser manual. O no ponerlo aquí como en el certificado físico
+    
+    )
+    lectura6 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra, 
+    id_producto = muestra.id_producto,
+    id_analisis = mesofilos_petri_grupo_exp.id_analisis,
+    id_metodo = mesofilos_petri_grupo_exp.id_metodo,
+    id_grupo = mesofilos_petri_grupo_exp.id_grupo,
+    valor_lectura = "70 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M316-21",
+        concepto = True
+    
+    )
+    lectura7 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra, 
+    id_producto = muestra.id_producto,
+    id_analisis = hongos_enriq_grupo_exp.id_analisis,
+    id_metodo = hongos_enriq_grupo_exp.id_metodo,
+    id_grupo = hongos_enriq_grupo_exp.id_grupo,
+    valor_lectura = "80 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M314-22",
+    concepto = False
+    
+    )
+    lectura8 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra, 
+    id_producto = muestra.id_producto,
+    id_analisis = hongos_siembra_grupo_exp.id_analisis,
+    id_metodo = hongos_siembra_grupo_exp.id_metodo,
+    id_grupo = hongos_siembra_grupo_exp.id_grupo,
+    valor_lectura = "90 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M315-22",
+    concepto = False
+    )
+    
+    lectura9 = Dominio.Lectura(
+    id_muestra = muestra.id_muestra, 
+    id_producto = muestra.id_producto,
+    id_analisis = hongos_petri_grupo_exp.id_analisis,
+    id_metodo = hongos_petri_grupo_exp.id_metodo,
+    id_grupo = hongos_petri_grupo_exp.id_grupo,
+    valor_lectura = "100 ufc",
+    registra = yuli_largo.id_miembro,
+    lote_medio = "M316-22",
+    concepto = True
+    )
+    
+    lecturas = [lectura1, lectura2,lectura3, lectura4, lectura5, lectura6, lectura7, lectura8, lectura9]
+
+.. code:: ipython3
+
+    sesion.add_all(lecturas)
+
+.. code:: ipython3
+
+    sesion.commit()
+
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db 'select * from lectura;'
+
+
+.. parsed-literal::
+
+    id_producto  id_analisis  id_metodo  id_grupo  id_muestra  valor_lectura  fecha_lectura               lote_medio  registra  verifica  medios  equipos  concepto
+    -----------  -----------  ---------  --------  ----------  -------------  --------------------------  ----------  --------  --------  ------  -------  --------
+    1            1            1          1         1           112 ufc        2021-01-21 16:15:20.709929  M314-20     1                                    0       
+    1            1            2          1         1           211 ufc        2021-01-21 16:15:20.709972  M315-20     1                                    0       
+    1            1            3          1         1           211 ufc        2021-01-21 16:15:20.709979  M316-20     1                                    0       
+    1            1            1          2         1           40 ufc         2021-01-21 16:15:20.709985  M314-21     1                                    1       
+    1            1            2          2         1           20 ufc         2021-01-21 16:15:20.709991  M315-21     1                                    0       
+    1            1            3          2         1           70 ufc         2021-01-21 16:15:20.709997  M316-21     1                                    1       
+    1            2            1          2         1           80 ufc         2021-01-21 16:15:20.710002  M314-22     1                                    0       
+    1            2            2          2         1           90 ufc         2021-01-21 16:15:20.710008  M315-22     1                                    0       
+    1            2            3          2         1           100 ufc        2021-01-21 16:15:20.710014  M316-22     1                                    1       
+
+
+Unamos las lecturas con las especificaciones para obtener un resumen del
+analisis
+
+.. code:: ipython3
+
+    !sqlite3 -header -column rodam/aceptacion.db "select valor_lectura as lectura, descripcion as especificacion, concepto from lectura,especificacion where lectura.id_producto = especificacion.id_producto and lectura.id_analisis = especificacion.id_analisis and lectura.id_metodo = especificacion.id_metodo and lectura.id_grupo = especificacion.id_grupo;"
+
+
+.. parsed-literal::
+
+    lectura  especificacion  concepto
+    -------  --------------  --------
+    112 ufc  < 100 ufc       0       
+    211 ufc  < 100 ufc       0       
+    211 ufc  < 100 ufc       0       
+    40 ufc   < 200 ufc       1       
+    20 ufc   < 10 ufc        0       
+    70 ufc   < 140 ufc       1       
+    80 ufc   < 40 ufc        0       
+    90 ufc   < 10 ufc        0       
+    100 ufc  < 230 ufc       1       
+
+
+Emisión de certificados
+=======================
+
+En esta sección veremos cómo podemos construir un certificado de
+análisis a partir de las tablas que tenemos.
+
+Con una consulta un poco más elaborada podemos obtener tablas markdown
+directamente de ``sqlite``.
+
+
+
+Informacion del cliente
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Con una consulta como:
+
+.. code:: sql
+
+   select nom_empresa as empresa, nit_empresa as nit,  direccion, pagina, correo from empresa, ciudad where empresa.id_ciudad = ciudad.id_ciudad and empresa.id_empresa = 1;
+
+Podemos generar:
+
+.. code:: ipython3
+
+    !sqlite3 -header -line rodam/aceptacion.db 'select nom_empresa as empresa, nit_empresa as nit,  direccion, pagina, correo from empresa, ciudad where empresa.id_ciudad = ciudad.id_ciudad and empresa.id_empresa = 1;'
+
+
+.. parsed-literal::
+
+      empresa = Compañía Nacional de Cosméticos CONALCOS
+          nit = 90024
+    direccion = calle 34 Bis 39-33
+       pagina = conalcos.com.co
+       correo = contacto@conalco.com.co
+
+
+Información de la muestra
+-------------------------
+
+Con una consulta como :
+
+.. code:: sql
+
+   select  nom_producto, presentacion,tamano_muestra as tamano, unidades_tamano as unidades, ingreso_muestra, nom_miembro as registra from producto, muestra, miembro_rodam m where producto.id_producto = muestra.id_muestra and muestra.registra = m.id_miembro
+
+produce:
+
+.. code:: ipython3
+
+    !sqlite3 -header -line rodam/aceptacion.db 'select  nom_producto, presentacion,tamano_muestra as tamano, unidades_tamano as unidades, ingreso_muestra, nom_miembro as registra from producto, muestra, miembro_rodam m where producto.id_producto = muestra.id_muestra and muestra.registra = m.id_miembro'
+
+
+.. parsed-literal::
+
+       nom_producto = Xinefax
+       presentacion = tabletas
+             tamano = 500
+           unidades = mg
+    ingreso_muestra = 2021-01-21 16:14:57.105971
+           registra = Ernesto Segura
+
+
+Resumen analisis
+~~~~~~~~~~~~~~~~
+
+Con una consulta como:
+
+.. code:: sql
+
+   select nom_grupo as grupo, nom_analisis as analisis,nom_metodo as metodo,medio, lote_medio,especificacion.descripcion as especificacion, valor_lectura as resultado,  concepto from grupo, analisis,metodo, lectura,especificacion where grupo.id_grupo = lectura.id_grupo and analisis.id_analisis = lectura.id_analisis and metodo.id_metodo = lectura.id_metodo and lectura.id_producto = especificacion.id_producto and lectura.id_analisis = especificacion.id_analisis and lectura.id_metodo = especificacion.id_metodo and lectura.id_grupo = especificacion.id_grupo;
+
+Produce:
+
+.. code:: ipython3
+
+    !sqlite3 -header -markdown rodam/aceptacion.db "select nom_grupo as grupo, nom_analisis as analisis,nom_metodo as metodo,medio, lote_medio,especificacion.descripcion as especificacion, valor_lectura as resultado,  concepto from grupo, analisis,metodo, lectura,especificacion where grupo.id_grupo = lectura.id_grupo and analisis.id_analisis = lectura.id_analisis and metodo.id_metodo = lectura.id_metodo and lectura.id_producto = especificacion.id_producto and lectura.id_analisis = especificacion.id_analisis and lectura.id_metodo = especificacion.id_metodo and lectura.id_grupo = especificacion.id_grupo;"
+
+
+.. parsed-literal::
+
+    |          grupo           |            analisis             |         metodo          |     medio      | lote_medio | especificacion | resultado | concepto |
+    |--------------------------|---------------------------------|-------------------------|----------------|------------|----------------|-----------|----------|
+    | Grupo de control         | Recuento de Mesofilos Aeorobios | Enriquecimiento         | Agar TSA       | M314-20    | < 100 ufc      | 112 ufc   | 0        |
+    | Grupo de control         | Recuento de Mesofilos Aeorobios | Siembra e incubación    | Agar Sabouraud | M315-20    | < 100 ufc      | 211 ufc   | 0        |
+    | Grupo de control         | Recuento de Mesofilos Aeorobios | Conteo en caja de Petri | Agar TSB       | M316-20    | < 100 ufc      | 211 ufc   | 0        |
+    | Grupo de experimentación | Recuento de Mesofilos Aeorobios | Enriquecimiento         | Agar TSA       | M314-21    | < 200 ufc      | 40 ufc    | 1        |
+    | Grupo de experimentación | Recuento de Mesofilos Aeorobios | Siembra e incubación    | Agar Sabouraud | M315-21    | < 10 ufc       | 20 ufc    | 0        |
+    | Grupo de experimentación | Recuento de Mesofilos Aeorobios | Conteo en caja de Petri | Agar TSB       | M316-21    | < 140 ufc      | 70 ufc    | 1        |
+    | Grupo de experimentación | Recuento de Hongos y Levaduras  | Enriquecimiento         | Agar TSA       | M314-22    | < 40 ufc       | 80 ufc    | 0        |
+    | Grupo de experimentación | Recuento de Hongos y Levaduras  | Siembra e incubación    | Agar Sabouraud | M315-22    | < 10 ufc       | 90 ufc    | 0        |
+    | Grupo de experimentación | Recuento de Hongos y Levaduras  | Conteo en caja de Petri | Agar TSB       | M316-22    | < 230 ufc      | 100 ufc   | 1        |
+
+
++-----------+--------------+-----------+------+----+------+----+---+
+| grupo     | analisis     | metodo    | m    | lo | es   | r  | c |
+|           |              |           | edio | te | peci | es | o |
+|           |              |           |      | _m | fica | ul | n |
+|           |              |           |      | ed | cion | ta | c |
+|           |              |           |      | io |      | do | e |
+|           |              |           |      |    |      |    | p |
+|           |              |           |      |    |      |    | t |
+|           |              |           |      |    |      |    | o |
++===========+==============+===========+======+====+======+====+===+
+| Grupo de  | Recuento de  | Enriqu    | Agar | M  | <    | 1  | 0 |
+| control   | Mesofilos    | ecimiento | TSA  | 31 | 100  | 12 |   |
+|           | Aeorobios    |           |      | 4- | ufc  | u  |   |
+|           |              |           |      | 20 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Siembra e | Agar | M  | <    | 2  | 0 |
+| control   | Mesofilos    | i         | S    | 31 | 100  | 11 |   |
+|           | Aeorobios    | ncubación | abou | 5- | ufc  | u  |   |
+|           |              |           | raud | 20 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Conteo en | Agar | M  | <    | 2  | 0 |
+| control   | Mesofilos    | caja de   | TSB  | 31 | 100  | 11 |   |
+|           | Aeorobios    | Petri     |      | 6- | ufc  | u  |   |
+|           |              |           |      | 20 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Enriqu    | Agar | M  | <    | 40 | 0 |
+| experi    | Mesofilos    | ecimiento | TSA  | 31 | 200  | u  |   |
+| mentación | Aeorobios    |           |      | 4- | ufc  | fc |   |
+|           |              |           |      | 21 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Siembra e | Agar | M  | < 10 | 20 | 0 |
+| experi    | Mesofilos    | i         | S    | 31 | ufc  | u  |   |
+| mentación | Aeorobios    | ncubación | abou | 5- |      | fc |   |
+|           |              |           | raud | 21 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Conteo en | Agar | M  | <    | 70 | 1 |
+| experi    | Mesofilos    | caja de   | TSB  | 31 | 140  | u  |   |
+| mentación | Aeorobios    | Petri     |      | 6- | ufc  | fc |   |
+|           |              |           |      | 21 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Enriqu    | Agar | M  | < 40 | 80 | 0 |
+| experi    | Hongos y     | ecimiento | TSA  | 31 | ufc  | u  |   |
+| mentación | Levaduras    |           |      | 4- |      | fc |   |
+|           |              |           |      | 22 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Siembra e | Agar | M  | < 10 | 90 | 0 |
+| experi    | Hongos y     | i         | S    | 31 | ufc  | u  |   |
+| mentación | Levaduras    | ncubación | abou | 5- |      | fc |   |
+|           |              |           | raud | 22 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Conteo en | Agar | M  | <    | 1  | 1 |
+| experi    | Hongos y     | caja de   | TSB  | 31 | 230  | 00 |   |
+| mentación | Levaduras    | Petri     |      | 6- | ufc  | u  |   |
+|           |              |           |      | 22 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+
+Equipos utilizados
+~~~~~~~~~~~~~~~~~~
+
+======================= ==============
+nom_equipo              ref_documental
+======================= ==============
+Cabina de flujo laminar E001
+Balanza                 E020
+Balanza                 E020
+Micropipeta             E019
+Incubadora              E010
+Balanza                 E020
+Caja de Petri           E011
+======================= ==============
+
+ Una aproximación al documento final
+-------------------------------------
+
+::
+
+   INFORMACION DEL CLIENTE
+   empresa = Compañía Nacional de Cosméticos CONALCOS
+   nit = 90024
+   direccion = calle 34 Bis 39-33
+   pagina = conalcos.com.co
+   correo = contacto@conalco.com.co
+
+   INFORMACION DE LA MUESTRA
+   nom_producto = Xinefax
+   presentacion = tabletas
+   tamano = 500
+   unidades = mg
+   ingreso_muestra = 2021-01-21 16:14:57.105971
+   registra = Ernesto Segura
+     
+
+   RESUMEN ANALISIS
+
++-----------+--------------+-----------+------+----+------+----+---+
+| grupo     | analisis     | metodo    | m    | lo | es   | r  | c |
+|           |              |           | edio | te | peci | es | o |
+|           |              |           |      | _m | fica | ul | n |
+|           |              |           |      | ed | cion | ta | c |
+|           |              |           |      | io |      | do | e |
+|           |              |           |      |    |      |    | p |
+|           |              |           |      |    |      |    | t |
+|           |              |           |      |    |      |    | o |
++===========+==============+===========+======+====+======+====+===+
+| Grupo de  | Recuento de  | Enriqu    | Agar | M  | <    | 1  | 0 |
+| control   | Mesofilos    | ecimiento | TSA  | 31 | 100  | 12 |   |
+|           | Aeorobios    |           |      | 4- | ufc  | u  |   |
+|           |              |           |      | 20 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Siembra e | Agar | M  | <    | 2  | 0 |
+| control   | Mesofilos    | i         | S    | 31 | 100  | 11 |   |
+|           | Aeorobios    | ncubación | abou | 5- | ufc  | u  |   |
+|           |              |           | raud | 20 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Conteo en | Agar | M  | <    | 2  | 0 |
+| control   | Mesofilos    | caja de   | TSB  | 31 | 100  | 11 |   |
+|           | Aeorobios    | Petri     |      | 6- | ufc  | u  |   |
+|           |              |           |      | 20 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Enriqu    | Agar | M  | <    | 40 | 0 |
+| experi    | Mesofilos    | ecimiento | TSA  | 31 | 200  | u  |   |
+| mentación | Aeorobios    |           |      | 4- | ufc  | fc |   |
+|           |              |           |      | 21 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Siembra e | Agar | M  | < 10 | 20 | 0 |
+| experi    | Mesofilos    | i         | S    | 31 | ufc  | u  |   |
+| mentación | Aeorobios    | ncubación | abou | 5- |      | fc |   |
+|           |              |           | raud | 21 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Conteo en | Agar | M  | <    | 70 | 1 |
+| experi    | Mesofilos    | caja de   | TSB  | 31 | 140  | u  |   |
+| mentación | Aeorobios    | Petri     |      | 6- | ufc  | fc |   |
+|           |              |           |      | 21 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Enriqu    | Agar | M  | < 40 | 80 | 0 |
+| experi    | Hongos y     | ecimiento | TSA  | 31 | ufc  | u  |   |
+| mentación | Levaduras    |           |      | 4- |      | fc |   |
+|           |              |           |      | 22 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Siembra e | Agar | M  | < 10 | 90 | 0 |
+| experi    | Hongos y     | i         | S    | 31 | ufc  | u  |   |
+| mentación | Levaduras    | ncubación | abou | 5- |      | fc |   |
+|           |              |           | raud | 22 |      |    |   |
++-----------+--------------+-----------+------+----+------+----+---+
+| Grupo de  | Recuento de  | Conteo en | Agar | M  | <    | 1  | 1 |
+| experi    | Hongos y     | caja de   | TSB  | 31 | 230  | 00 |   |
+| mentación | Levaduras    | Petri     |      | 6- | ufc  | u  |   |
+|           |              |           |      | 22 |      | fc |   |
++-----------+--------------+-----------+------+----+------+----+---+
+
+::
+
+   EQUIPOS UTILIZADOS
+
+======================= ==============
+nom_equipo              ref_documental
+======================= ==============
+Cabina de flujo laminar E001
+Balanza                 E020
+Balanza                 E020
+Micropipeta             E019
+Incubadora              E010
+Balanza                 E020
+Caja de Petri           E011
+======================= ==============
+

@@ -1,927 +1,146 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<title>Bitácora: Bogotá y sus historias</title>
-<!-- 2019-05-13 Mon 22:20 -->
-<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta  name="generator" content="Org-mode" />
-<meta  name="author" content="Jonatan A. Ahumada Fernández" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { color: green; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: visible;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  pre.src-sh:before    { content: 'sh'; }
-  pre.src-bash:before  { content: 'sh'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-R:before     { content: 'R'; }
-  pre.src-perl:before  { content: 'Perl'; }
-  pre.src-java:before  { content: 'Java'; }
-  pre.src-sql:before   { content: 'SQL'; }
 
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.right  { text-align: center;  }
-  th.left   { text-align: center;   }
-  th.center { text-align: center; }
-  td.right  { text-align: right;  }
-  td.left   { text-align: left;   }
-  td.center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara:nth-child(2) { display: inline; }
-  .footpara { display: block; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  /*]]>*/-->
-</style>
-<link rel="stylesheet" type="text/css" href="clean-blog.css" />
-<link href="https://fonts.googleapis.com/css?family=Cinzel|Crimson+Text" rel="stylesheet">
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
+<!DOCTYPE html>
 
-Copyright (C) 2012-2013 Free Software Foundation, Inc.
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentación de Módulo Laboratorio de Rodam Análisis S.A.S &#8212; documentación de Módulo Laboratorio - 0.0</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="Documento de Especificación de Requerimientos" href="espec_req/srs.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+  </head><body>
+  
 
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
 
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
-</head>
-<body>
-<div id="content">
-<h1 class="title">Bitácora: Bogotá y sus historias</h1>
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentacion-de-modulo-laboratorio-de-rodam-analisis-s-a-s">
+<h1>Documentación de Módulo Laboratorio de Rodam Análisis S.A.S<a class="headerlink" href="#documentacion-de-modulo-laboratorio-de-rodam-analisis-s-a-s" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li><a href="#sec-1">1. Introducción</a></li>
-<li><a href="#sec-2">2. Propuesta de proyecto final</a>
+<li class="toctree-l1"><a class="reference internal" href="espec_req/srs.html">Documento de Especificación de Requerimientos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/srs.html#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/srs.html#descripcion-general">Descripción General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/srs.html#funcionalidades-del-sistema">Funcionalidades del sistema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="espec_req/SDD.html">Documento de Diseño</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/SDD.html#introduccion">Introducción</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/SDD.html#descripcion-del-dominio">Descripción del Dominio</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html">Modelo Relacional del Laboratorio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#resumen">Resumen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#documentos-relacionados">Documentos relacionados</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#objetivo">Objetivo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#definiciones">Definiciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#creacion-de-analisis">Creación de análisis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#ingreso-de-un-producto">Ingreso de un producto</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#la-codificacion-de-las-especificaciones">La codificación de las especificaciones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#ingreso-de-una-muestra">Ingreso de una muestra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#ingreso-de-lectura">Ingreso de lectura</a></li>
+<li class="toctree-l2"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html#informacion-de-la-muestra">Información de la muestra</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Enlazar permanentemente con este título">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Índice</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Índice de Módulos</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Página de Búsqueda</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Módulo Laboratorio</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li><a href="#sec-2-1">2.1. retroalimentación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="espec_req/srs.html">Documento de Especificación de Requerimientos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="espec_req/SDD.html">Documento de Diseño</a></li>
+<li class="toctree-l1"><a class="reference internal" href="espec_req/laboratorio_aceptacion1.html">Modelo Relacional del Laboratorio</a></li>
 </ul>
-</li>
-<li><a href="#sec-3">3. Encuesta</a></li>
-<li><a href="#sec-4">4. Entradas</a>
+
+<div class="relations">
+<h3>Related Topics</h3>
 <ul>
-<li><a href="#sec-4-1">4.1. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-02 Sat&gt;</span></span>: Judío Errante en Eje Ambiental</a></li>
-<li><a href="#sec-4-2">4.2. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-07 Thu&gt;</span></span>: Fumar no mata</a></li>
-<li><a href="#sec-4-3">4.3. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-10 Sun&gt;</span></span>: Refugio contra el cemento</a>
-<ul>
-<li><a href="#sec-4-3-1">4.3.1. ancianos</a></li>
-<li><a href="#sec-4-3-2">4.3.2. niños</a></li>
-<li><a href="#sec-4-3-3">4.3.3. deportistas</a></li>
-<li><a href="#sec-4-3-4">4.3.4. chica de 'libros al viento'</a></li>
-<li><a href="#sec-4-3-5">4.3.5. vendedores</a></li>
-</ul>
-</li>
-<li><a href="#sec-4-4">4.4. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-15 Fri&gt;</span></span>: Apocalipsis ZombieAmbiental</a></li>
-<li><a href="#sec-4-5">4.5. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-17 Sun&gt;</span></span>: Nadie cree en el Apocalipsis ZombieAmbiental</a></li>
-<li><a href="#sec-4-6">4.6. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-23 Sat&gt;</span></span>: El proceso</a></li>
-<li><a href="#sec-4-7">4.7. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-28 Thu&gt;</span></span>: TransmiFeminismo</a></li>
-<li><a href="#sec-4-8">4.8. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-03-16 Sat&gt;</span></span>: La Edad Dorada</a></li>
-<li><a href="#sec-4-9">4.9. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-03-19 Tue&gt;</span></span>: Circo itinerante de Movilidad Pública</a></li>
-<li><a href="#sec-4-10">4.10. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-04-07 Sun&gt;</span></span>: Mercaderes del pasado</a></li>
-<li><a href="#sec-4-11">4.11. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-04-24 Wed&gt;</span></span>: Basquiat farsante</a></li>
-<li><a href="#sec-4-12">4.12. <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-05-13 Mon&gt;</span></span>: La Guerra fría (cuadro de la política bogotana)</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">5. Notas lecturas</a>
-<ul>
-<li><a href="#sec-5-1">5.1. Chorro</a></li>
-<li><a href="#sec-5-2">5.2. LeMoyne</a></li>
-<li><a href="#sec-5-3">5.3. Chicha</a></li>
-<li><a href="#sec-5-4">5.4. Plazas</a></li>
-<li><a href="#sec-5-5">5.5. Plazas2</a></li>
-</ul>
-</li>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="espec_req/srs.html" title="próximo capítulo">Documento de Especificación de Requerimientos</a></li>
+  </ul></li>
 </ul>
 </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
 </div>
+<script>$('#searchbox').show(0);</script>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Introducción</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-Esta página constituirá la bitácora para el curso "Bogotá y sus Historias", cursado en la Fundación Universitaria Konrad Lorenz.
-</p>
 
-<hr  />
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
-<colgroup>
-<col  class="left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="left">Estudiante: Jonatan Adolfo Ahumada</td>
-</tr>
-</tbody>
-</table>
-<hr  />
-<hr  />
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
-<colgroup>
-<col  class="left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="left">Docente: Estefanía Vanegas</td>
-</tr>
-</tbody>
-</table>
-<hr  />
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Propuesta de proyecto final</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-Para mi proyecto final me gustaría estudiar el tema de las catedrales o en general las iglesias que existen en Bogotá.
-Más allá de ir a visitarlas, me gustaria investigar qué información existe respecto a su estilo arquitectónico, sus funciones 
-en la ciudad, y quiénes las contruyeron. Por ejemplo, ¿qué iglesias fueron construidas por jesuítas? ¿Cuáles fueron construidas
-por dominicos? ¿Existen leyendas sobre algunas de estas? ¿Quién las construyó y cómo tenían el conocimiento sobre su construcción?
-¿Cuánto tardaron en construirse? etc.
-</p>
-
-<p>
-Me gustaría ahondar en este tema porque me impactan estéticamente. Me parece que su construcción contrasta 
-bastante con la arquitectura de las casas que hemos visto en el curso (por ejemplo, las que fueron hechas con ladrillos de barro).
-Además, me interesaría conectar esto, en la medida de lo posible, con el mito fundacional de la ciudad. Según lo visto en clase, 
-hay una clara simbología religiosa imbuida en el mito de las 12 casas.
-</p>
-
-<p>
-Según se vayan explicando los lineamientos del trabajo, delimitaré más el objetivo del estudio, pero este es el tema principal
-que me gustaría trabajar. 
-</p>
-
-<p>
-Se me ocurren dos opciones:
-</p>
-
-<ol class="org-ol">
-<li>leer bibliografía existente y presentar una síntesis (si es que existe y es accesible).
-</li>
-<li>simplemente hacer visitas, tomar fotos y hacer comentarios comparativos entre varias iglesias (probablemente sea lo más fácil).
-</li>
-</ol>
-</div>
-
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1"><span class="section-number-3">2.1</span> retroalimentación</h3>
-<div class="outline-text-3" id="text-2-1">
-<p>
-Delimité el trabajo a una muestra fotográfica con breves apuntes históricos. Aún debo escogér cuáles y cuántas
-iglesias son suficientes. 
-</p>
-
-
-
-<ul class="org-ul">
-<li>medio: página web
-</li>
-</ul>
-
-<div class="figure">
-<p><img src="./img/tn/catedral_silueta.jpg" alt="catedral_silueta.jpg" />
-</p>
-<p><span class="figure-number">Figure 1:</span> Iglesia de Lourdes</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Encuesta</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-<a href="./encuesta.html">Imaginarios</a>
-</p>
-</div>
-</div>
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Entradas</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-02 Sat&gt;</span></span>: Judío Errante en Eje Ambiental</h3>
-<div class="outline-text-3" id="text-4-1">
-<p>
-Me parece auspicioso que la Libreria Lerner esté
-en el centro. A pocas cuadras hay una estatua de José Rufino Cuervo y, además, está rodeada de 
-universidades. Contrario a lo que uno está acostumbrado, la Libreria es buena. Con esto me refiero a
-que es bueno su catálogo, cosa que no cabría explicar aquí. Pero, por ejemplo, si se compara con un Barnes &amp; Nobles, 
-se notará la diferencia en su catálogo. Supongo que tendrá que ver con las segmentación del mercado editorial según las 
-lenguas. Es decir, el busto de Cuervo efectivamente ha tenido su influencia. Lamentablemente, a esa hora estaba vacío.
-Además, los sábados cierran temprano. Solo había unas cuantas almas. 
-</p>
-
-<p>
-Una profesora de unos 60 años con su "amiga" preguntaban
-por bibliografía sobre los judíos. Todo, lo que hubiere. Parece que
-preparaban una clase, pero se distraían al mismo tiempo. Eran 'godas',
-así como lo pintan en las nóvelas de RCN. No había muchas cosas sobre
-judíos, pero podían traerlas de <i>afuera</i> (guiño).
-</p>
-
-<p>
-Luego, también entró un gringo. Preguntó por 'books in English' y lo dirigieron a una sección al lado 
-del salón de literatura colombiana.
-</p>
-
-<p>
-Es curioso estar rodeado de íconos nacionales y al mismo tiempo sentirse extrañado y expatriado.  
-</p>
-
-<p>
-Caminé el eje ambiental hasta llegar al Claustro del Rosario y luego tomé la séptima hasta 
-el cruce con la 26. 
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/eje-ambiental.jpg" alt="eje-ambiental.jpg" />
-</p>
-<p><span class="figure-number">Figure 2:</span> Eje ambiental</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/tn/salida-lerner.jpg" alt="salida-lerner.jpg" />
-</p>
-<p><span class="figure-number">Figure 3:</span> A la salida de la Librería Lerner</p>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-07 Thu&gt;</span></span>: Fumar no mata</h3>
-<div class="outline-text-3" id="text-4-2">
-<p>
-Hoy pude levantarme "tarde" porque contaba con el carro para ir a la Universidad, o eso creía.
-Resulta que mi trayecto fue bastante fácil y el parqueadero estaba vacío, pero por efecto de la somnolencia nunca
- me detuve a pensar por qué. Jamás se me ocurrió. Lamentablemente, era
-el Día Sin Carro, cosa de la que no me enteré jamás ni por noticias, ni por el banner del Transmilenio que 
-había tomado varias veces el día de ayer.
-</p>
-
-<p>
-La utilidad de este Día es similar a la de dejar de fumar un solo día al año, cuando fumas dos cajas diarias.
- Le dije esto a un estudiante de matemáticas con el que estudio
-y me respondió:
-</p>
-
-<p>
-&#x2013; 'Qué rabón'
-</p>
-
-<p>
-Nunca me refutó convincementemente, más alla de decir que "Sí, sirve un poquito".
-</p>
-
-<p>
-Entro a clase de estructuras de datos y me tomé el tiempo de revisar la ley. No muy sorprendentemente, fue 
-escogida por votación popular, y fue propuesta por Antanas Mockus, el 'tipo de la cultura'. Ahora bien, ¿qué sucede si
-sacas el carro y te detiene un policia? (suponiendo que no te obligue a sobornarlo sacando una pistola, como ya me ha pasado). Primero
-te multan con 416,000 COP y, además (porque esto no es suficiente), se llevan el carro a los patios.
-Esto último es una verdadera joya, porque el costo por día de los patios es sospechosamente elevado, sobre todo si se le suma el 
-hecho de que el trámite para sacarlo de los patios también es infernalmente demorado (pierdes horas laborales o de estudio inevitablemente). 
-</p>
-
-<p>
-Me pregunto cómo es
-posible que constitucionalmente se pueda poner el consenso popular sobre la libertad de transitar sobre calles que uno paga, con el vehículo 
-que uno paga. Con qué responden los depositarios de la sagrada moral: con trancones espantosos de Transmilenio en el Día Sin Carro.
-</p>
-
-<p>
-La 'ola verde' ataca nuevamente. Su voz es legión, y es ley.
-</p>
-</div>
-</div>
-
-
-
-
-
-<div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-10 Sun&gt;</span></span>: Refugio contra el cemento</h3>
-<div class="outline-text-3" id="text-4-3">
-<p>
-En el parque Sauzalito se pueden apreciar todo tipo de
-especímenes. Partenecen a las más diversos <i>phillum</i> y <i>strata</i>, pero 
-todos tienen algo en común: quieren escapar del cemento que succiona
-su alma de lunes a viernes. A continuación, algo así como un recuento: 
-</p>
-</div>
-
-<div id="outline-container-sec-4-3-1" class="outline-4">
-<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> ancianos</h4>
-<div class="outline-text-4" id="text-4-3-1">
-<p>
-Montados en las "máquinas de ejercicio" que la gobernación ha venido
-poniendo. La infección llegó hasta mi barrio, porque recuerdo que hace años eso no estaba ahí. Es un poco ridículo ver 
-cómo usan estas "máquinas", porque no es 
-ni cardiovascular, ni de fueza. 
-Las máquinas ejemplifican la pésima idea de gobierno que rige la ciudad y que llega a su epítome en Peñalosa. Invertir en 
-lo mínimo posible en dádivas "democráticas" que la gente toma por grandes lujos, cuando su utilidad o beneficio en 
-realidad es nulo. 
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4-3-2" class="outline-4">
-<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> niños</h4>
-<div class="outline-text-4" id="text-4-3-2">
-<p>
-El parque está lleno de cursos de natación, patinaje, artes marciales, tenis, basketbol, etc. No me es muy claro 
-cómo funciona el asunto. Es decir, si las clases las ofrece el parque, o hay empresas privadas que alquilan el parque, o 
-si lo usan gratis. Había varios quiscos, pero no pregunté nada, pues no hay nada más mediocre que la mirada ausente de quien
-supervisa los hijos de otras personas por dinero. 
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4-3-3" class="outline-4">
-<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> deportistas</h4>
-<div class="outline-text-4" id="text-4-3-3">
-<p>
-En Bogotá hay una cultura de calistenia. Hoy había algunos tipos utilizando las barras del Sauzalito, pero no es mucho en comparación con el parque Simón Bolívar.
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4-3-4" class="outline-4">
-<h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span> chica de 'libros al viento'</h4>
-<div class="outline-text-4" id="text-4-3-4">
-<p>
-Me gusta esta idea, pero creo que nadie la usa. También noto ahí un problema y es que, si eres lector, no vas a recurrir a un quiosco arbitrariamente
-puesto para hacer tu lectura. Por otro lado, los libros que ponían no eran malos (salvo los del Centro de Memoria Histórica). Voy a poner fotos abajo.
-La chica que atendía procuraba tener buena actitud, pero también le aburría, porque había muy poca interacción. Es probable que tuviera una carrera universitaria, porque
-he visto que esas cosas pasen.
-</p>
-
-<div class="figure">
-<p><img src="./img/tn/libroalviento.jpeg" alt="libroalviento.jpeg" />  
-</p>
-<p><span class="figure-number">Figure 4:</span> Julieta mató a Gonzalo Arango</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/tn/libroalviento2.jpeg" alt="libroalviento2.jpeg" />
-</p>
-<p><span class="figure-number">Figure 5:</span> Libro sobre arte pop</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-4-3-5" class="outline-4">
-<h4 id="sec-4-3-5"><span class="section-number-4">4.3.5</span> vendedores</h4>
-<div class="outline-text-4" id="text-4-3-5">
-<p>
-La mayoría de vendedores ambulantes se postran en el suelo a disfrutar
-el ambiente. Sé que deberían irradiar tranquilidad y reposo, pero en
-mí incitan tristeza, no sé por qué.   
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-15 Fri&gt;</span></span>: Apocalipsis ZombieAmbiental</h3>
-<div class="outline-text-3" id="text-4-4">
-<p>
-Hoy declararon que el pico y placa se extiende hasta el fin de semana y durante todo el día. Lo hacen para "preservar la
-salud de los ciudadadanos", dice el secretario de movilidad. La situación supuestamente se origina por condiciones ambientales atípicas. Bosa, Kennedy, Tunjuelito y 
-Puente Aranda tienen alerta naranja. 
-</p>
-
-<p>
-La Secretaría de Movilidad admite que cerca del 40% de material particulado lo emiten los camiones. Es decir, el sector industrial. Sospecho que los ciudadanos comunes 
-poco tendrían que ver con el otro 60%. ¿Quién permite que su carro bote humo tan negro como el de los colectivos, las tractomulas, los transmilenios? Por supuesto, la cifra asignada al Transmilenio milagrosamente tiene un solo dígito. Además, los sectores más contaminados 
-son los que tienen menos poseedores de carros particulares. ¿Será que Kennedy y Puente Aranda concentran la mayoría de los carros particulares? ¿El norte se verá
-afectado con la misma severidad que este sector? 
-</p>
-
-<p>
-Este episodio es la repetición de "el de las motos", en el año pasado. El estado siempre velando por la seguridad de los ciudadanos. ¿Quién podrá 
-ser el beneficiado de tal medida? ¿Están probando a ver qué tan pusilánimes somos?
-</p>
-</div>
-</div>
-
-
-
-
-<div id="outline-container-sec-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-17 Sun&gt;</span></span>: Nadie cree en el Apocalipsis ZombieAmbiental</h3>
-<div class="outline-text-3" id="text-4-5">
-<p>
-Según las noticias, tendríamos que usar tapabocas al salir a la calle. La crisis ambiental es demasiado crítica. No obstante, salgo a la calle un domingo, el único día 
-en que me han permitido usar mi vehículo, y veo que hay cicloruta en la Boyacá y en la 26. Es lo usual. El trancón perenne, como de costumbre. Las caras felices de los ciclistas, en las cuales hace falta un
-tapabocas, me repugnan. No son en lo más mínimo conscientes de la contradicción que entrañan. ¿Ese es realmente el comportamiento de alguien preocupado por el medioambiente?
-¿No sería lo más lógico evitar en la mayor medida posible el aire viciado contenido en el Valle de Aburrá? (Y qué tiene que ver el Valle  con el centro urbano de Bogotá?)
-</p>
-
-<p>
-Me convenzo más de que la medida es solo para comodidad de quienes pueden financiar dos carros. Algo había que hacer para disminuir el trancón.
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-sec-4-6" class="outline-3">
-<h3 id="sec-4-6"><span class="section-number-3">4.6</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-23 Sat&gt;</span></span>: El proceso</h3>
-<div class="outline-text-3" id="text-4-6">
-<p>
-Por segunda vez a la semana voy al SuperCADE de la calle 26 con carrera 30.
-Esta vez también me voy con manos vacías. Llegué a las 9:00am y los turnos 
-para liquidar impuestos de años anteriores ya habian 'colapsado'. La señora
-que da la información me exhortó a llegar más temprano. Es demasiado obvio que
-pagar los impuestos requiere de toda una planeación estratégica. Así como
-grande es la concurrencia para los containers que surten a venezuela, grande
-es la concurrencia para tramitar dilegencias estatales.
-</p>
-
-<p>
-La primera vez que fui al SuperCADE, el tipo que me atendió me explicó que la diligencia
-que quería hacer tenía que ser <b>personal</b>. La página de internet no servía. El 
-gobierno no puede molestarse en mantener una página web que le convendría a liquidez
-de su cartera, pero, eso sí, que suban los impuestos (a la canasta pública, a las gaseosas, a
-los artículos tecnológicos, o más bien repartamos la tierras -eso sí nunca han podido hacerlo-).
-</p>
 
-<p>
-Seguramente como pagar los impuestos es responsabilidad del ciudadano (es una obligación ineludible, cuyas repercusiones son salvajes), no 
-les importa dejarnos hacer filas en cuchitriles ineficientes. Todas las cosas del estado son una porquería, es un patrón que se me
-hace difícil cuestionar. Por ejemplo, este SuperCADE tiene las siguientes fallas:
-</p>
 
-<ol class="org-ol">
-<li>Hay solo 2 personas (y como 5 sillas) agendando los turnos de la entrada. Téngase en cuenta que la fila es larguísima. 
-</li>
-<li><b>Antes</b> de hacer la fila <b>para sacar el turno</b> uno debe entrevistarse con las personas de información. Por regla general, le exigirán a uno documentos innecesarios (mucha gente se devolverá solo por eso).
-</li>
-<li>Casi todo lo importante (pagar impuestos antes de que le hagan algo a uno) requiere agendar una cita telefónica.
-</li>
-<li>Los menús telefonicos son infernalmente tediosos y una vez uno los termina lo someten a una espera sin fin, despuúes de la cual muchas veces te cuelgan.
-</li>
-<li>El lugar es sucio. 
-</li>
-<li>Las señas de la instalación están en desuso (por ejemplo, una
-cartelera aérea aferrada al cielo raso), en vez de eso se montan
-quioscos improvisados con señas impresas en lotes y mal cortadas.
-</li>
-<li>A la entrada hay gente desconocida que ofrece los servicios de 'predial' y 'vehículo'. Eso ya de por sí indica claramente qué es lo que le espera a uno.
-</li>
-</ol>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Jontan Ahumada Fernández.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
 
-<p>
-Conclusion: el gobierno no solo esta dirigido por corruptos, sino que es altamente ineficiente incluso en su operación más básica (recolectar plata).
-¿Es normal tener que ir dos veces (y contando) para hacer una dilegencia tan elemental? ¿Quién tiene el tiempo de ir tantas veces a perder el tiempo? 
-Recordemos que hay que coger Transmilenio o trancón para ir a perder el tiempo. Podríamos también ir en bicicleta, pero es muy arriesgado dada la crisis ambiental.
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-4-7" class="outline-3">
-<h3 id="sec-4-7"><span class="section-number-3">4.7</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-02-28 Thu&gt;</span></span>: TransmiFeminismo</h3>
-<div class="outline-text-3" id="text-4-7">
-<p>
-Tomé el bus M86 desde la estación CAN, para llegar a la parada
-de la séptima con 63. Lo tomé a las 8 AM, así que estaba lleno, 
-pero no bajo las condiciones inhumanas que se viven en hora pico 
-(por ejemplo, 7:00AM). Durante todo el trayecto estuve <b>directamente</b>
-al frente de un asiento rojo. Digamos que estuve 20 minutos en esa posición.
-Aforturnadamente, la persona que ocupaba el asiento se levantó para bajarse. 
-Naturalmente, al estar lleno, la persona duro de pié a la salida de su asiento
-(directamente al frente mio, una posición incómoda para los dos) un buen tiempo,
-esperando que las otras personas bajaran del bus. Fueron cerca de unos 2 minutos. Ahora viene
-lo importante.
-</p>
-
-<p>
-Cuando la persona pudo por fin quitarse de al frente mío, me dispuse a sentarme en mi legitimo puesto, 
-pero justo antes de sentarme veo <b>una cartera</b> resbalarse desde el espaldar del asiento hasta la silla 
-propiamente dicha. Una mujer que estaba al lado mío <b>impidió que tomara mi puesto</b> sin ningún asco por su propia persona.
-Estuve al punto de amonestarla, pero decidí que no valía la pena, porque ellos <b>son legión</b>.
-</p>
-
-
-
-
-
-<pre class="example">
-	    +-------------&gt; Puesto libre
-	    |				  
-+--+ +--+ +--+ +--+			  
-|xx| |xx| |  | |xx|			  
-+--+ +--+ +--+ +--+  	       	       	  
-    Mujer  Yo
-</pre>
-
-<p>
-Algunas otras cosas sobre el Transmilenio:
-</p>
-
-<ol class="org-ol">
-<li>los policias no hacen nada (dejan que a gente se vuele)
-</li>
-<li>los vendedores poseen mayor estatus moral que uno 
-</li>
-<li>los coordinadores no hacen nada cuando la gente no hace fila 
-</li>
-<li>las personas son incapaces de organizarse para entrar al Transmilenio
-</li>
-<li>las mujeres creen que los hombres están para servirles (¿es esto antifeminista o feminista?: depende por completo de la conveniencia del observador)
-</li>
-<li>nadie pregunta si se va a bajar en esta parada también, simplemente empujan de una vez
-</li>
-<li>los que entran no dejan que la gente salga
-</li>
-<li>la gente que espera un bus no se quita del frente aun cuando no necesita entrar al bus que llega
-</li>
-<li>la gente que quiere a entrar al bus que llega y no alcanza no se quita de al frente cuando el bus se va. Es decir, se vuelan y se repite 8)
-</li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-sec-4-8" class="outline-3">
-<h3 id="sec-4-8"><span class="section-number-3">4.8</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-03-16 Sat&gt;</span></span>: La Edad Dorada</h3>
-<div class="outline-text-3" id="text-4-8">
-<p>
-La exposición del Museo de Bogotá sobre las fotos familiares fue súper
-aburrida, pero por lo menos tuve una muestra de 'ultragodismo'. Me llamó la atención
-el número de fotos de gente caminando sobre la séptima. Sin importar su edad,
-todos lucián igual. Era un especie de uniforme, que con alegría anunciaba las
-bondades de la civilización.
-Los hombres vestían traje negro y las mujeres sus vestidos. Obviamente, en las 
-fotos no sale ningún indio o ningún indigente, así que la ciudad parece tener
-bastante solemnidad según las fotos. Las calles se ven menos pobladas y en general 
-la gente no tiene la cara de becerro sacrificial que se aprecia diariamente. Seguro solo es la foto. 
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/uniforme.jpg" alt="uniforme.jpg" />
-</p>
-<p><span class="figure-number">Figure 6:</span> El "uniforme"</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/tn/uniforme-mujeres.jpg" alt="uniforme-mujeres.jpg" />
-</p>
-<p><span class="figure-number">Figure 7:</span> Las delicias de Carreño</p>
-</div>
-
-<p>
-Otra cosa que me llamó la atención es la calidad de las fotos. Eran fotos muy buenas. 
-Los resultados no se comparan con la impresión de fotos digitales de hoy. Incluso hay una especie 
-de folleto de un negocio de revelación de fotos: Duperly &amp; Son's (nótese el nombre en inglés).
-Tiene un aire paradisiaco. Tengo una afición por las cosas godas. 
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/Duperly.jpg" alt="Duperly.jpg" />
-</p>
-<p><span class="figure-number">Figure 8:</span> La Edad Dorada</p>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-sec-4-9" class="outline-3">
-<h3 id="sec-4-9"><span class="section-number-3">4.9</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-03-19 Tue&gt;</span></span>: Circo itinerante de Movilidad Pública</h3>
-<div class="outline-text-3" id="text-4-9">
-<p>
-Sobre la carrera 13 con 63 presencié un fenómeno social muy extraño. Es una política de la ciudad muy parecida a la de los 
-"conos rojos" que abochornan a los conductores mal parqueados. Lo que vi fue 
-lo siguiente: mientras el semáforo estaba en rojo, unas 5 personas vestidas
-con chalecos verdes y con signos de "pare" se ponían en la zebra y hacían un baile.
-Mientras bailaban, en coro cantaban una propaganda sobre movilidad. El objetivo 
-de la propaganda era (creo, no tengo modo de comprobarlo) hacer que los 
-conductores respetaran el pare y, simultáneamente, hacer que los peatones
-cruzaran únicamente por la zebra.
-</p>
-
-<p>
-Racionalmente, supongo que uno debería aprobar que la ciudad tome esas medidas.
-Sin embargo, en términos pragmáticos, la escena proyecta una vaho de ridiculez 
-que es difícil de obviar. ¿Por qué tiene que haber un baile? ¿Los ciudadanos
-son niños con quienes sólo se puede comunicar a través de juegos y diversión?
-</p>
-
-<p>
-En mi opinion, la mayoría de la gente no respeta las normas porque nadie
-les llama la atención al respecto. Y nadie les llama la atención porque, como 
-es natural, uno quiere evitar ser apuñalado o que lo golpeen con una cruzeta en plena calle.
-Cuando, en respuesta a esto, la ciudad empieza a utilizar esas estrategias infantilizantes, al 
-agravio se le añade insulto. 
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/ridiculos1.jpeg" alt="ridiculos1.jpeg" />
-</p>
-<p><span class="figure-number">Figure 9:</span> Ridículos</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/tn/ridiculos2.jpeg" alt="ridiculos2.jpeg" />
-</p>
-<p><span class="figure-number">Figure 10:</span> Ridículos 2</p>
-</div>
-
-
-<div class="figure">
-<p><img src="./img/tn/ridiculos3.jpeg" alt="ridiculos3.jpeg" />
-</p>
-<p><span class="figure-number">Figure 11:</span> Ridículos 3</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-4-10" class="outline-3">
-<h3 id="sec-4-10"><span class="section-number-3">4.10</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-04-07 Sun&gt;</span></span>: Mercaderes del pasado</h3>
-<div class="outline-text-3" id="text-4-10">
-<p>
-Hay algo atrayente acerca del Mercado de Pulgas de Las Nieves. Realmente, solo voy a 
-mirar, porque me gustan las antiguedades, pero sospecho que la mayoría de las personas tampoco
-van a comprar. Aún no entiendo cómo recolectan todo lo que exponen. 
-Debe ser muy difícil.
-</p>
+    
 
-<p>
-Una vez estuve a punto de comprar un grabadora multipista de cinta magnética,
-como las que usaban los músicos en los estudios de grabación de antes (cinta magnética). Costaba unos 600.000 COP. Se veía en 
-buen estado. Hubiera valido la pena así no sirviera para nada. Era una máquina realmente imponente. Ni siquiera
-entiendo cómo la transportan hasta allí. 
-</p>
-
-<p>
-Uno puede encontrar todo tipo de cosas, desde anillos con patrones chibchas hasta vinilos de los Beatles.
-Es un sitio bastante histórico.
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/gomelaenbazaar.jpeg" alt="gomelaenbazaar.jpeg" />
-</p>
-<p><span class="figure-number">Figure 12:</span> Una gomela</p>
-</div>
-
-<div class="figure">
-<p><img src="./img/tn/estatuas.jpeg" alt="estatuas.jpeg" />
-</p>
-<p><span class="figure-number">Figure 13:</span> Estatuillas indígenas</p>
-</div>
-
-<div class="figure">
-<p><img src="./img/tn/armas.jpeg" alt="armas.jpeg" />
-</p>
-<p><span class="figure-number">Figure 14:</span> Armas</p>
-</div>
-
-<div class="figure">
-<p><img src="./img/tn/negocio.jpeg" alt="negocio.jpeg" />
-</p>
-<p><span class="figure-number">Figure 15:</span> Incluso un negocio de "marca"</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-4-11" class="outline-3">
-<h3 id="sec-4-11"><span class="section-number-3">4.11</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-04-24 Wed&gt;</span></span>: Basquiat farsante</h3>
-<div class="outline-text-3" id="text-4-11">
-<p>
-Los graffitis, en general, me parecen algo ridículos porque 
-encubren la pobreza (económica y cultural) y la enmascaran de
-romanticismo. La única excepción sería graffitis de "vieja cepa", 
-del tipo la "AUC mató a toda mi familia al frente mío", pero esos
-no son muy visibles. 
-</p>
-
-<p>
-Lo popular es lo otro, los de la 26. Hay algo bastante deshonesto en autoproclamarse la 
-"capital mundial del graffiti" y subsidiar a los 
-"artistas del graffiti". 
-Cuando trabajaba con diseñadores gráficos notaba 
-una afición al graffiti que nunca entendí, porque 
-todos eran egresados de la Nacional. ¿Por qué 
-un profesional pinta cosas en la calle? Creo que 
-es un fenómeno que implica varios niveles.
-</p>
-
-<p>
-Todo nace del hecho de la problemática de la carrera 
-"Diseño Gráfico", pues no es realmente exclusivamente
-mercadeo, pero tampoco es exclusivamente arte (una palabra
-que también trae muchísimos problemas). El diseño 
-gráfico siempre tiene que estar unido a algún "discurso", 
-y el discurso tras el graffiti es tan general que cae 
-de guantes a alguien que quiera ilustrar. 
-</p>
-
-<p>
-Otro nivel es la pobreza cultural, que nace de la 
-pobreza económica. Un DaVinci solo florece bajo el
-cuidado de un Medici. Realmente a nadie le gusta pagar
-por nada, y mucho menos por el "arte" (digamos que es
-tentativamente todo aquello que no tiene una utilidad bajo
-una dinámica de consumo tradicional). Al tener trabajos mal 
-pagos, la mayoría de los cuales no tienen la exigencia
-que merece haber estudiado algo por 4 o 5 años, obviamente pintar en
-la calle se va volviendo más atractivo. Me parece bien que 
-se separe el street art del graffiti. 
-</p>
-
-<p>
-Miré los graffitis de Chapinero y me di cuenta que muchas tiendas ya
-no tienen un banner, sino un graffiti. Algunas veces alguien graffitea
-el graffiti oficial. Qué risa. 
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/pseudogfti.jpeg" alt="pseudogfti.jpeg" />
-</p>
-<p><span class="figure-number">Figure 16:</span> Un negocio "concede" que pinten el garaje.</p>
-</div>
-</div>
-</div>
-
-
-
-<div id="outline-container-sec-4-12" class="outline-3">
-<h3 id="sec-4-12"><span class="section-number-3">4.12</span> <span class="timestamp-wrapper"><span class="timestamp">&lt;2019-05-13 Mon&gt;</span></span>: La Guerra fría (cuadro de la política bogotana)</h3>
-<div class="outline-text-3" id="text-4-12">
-<p>
-La semana pasada me robaron el IPhone dentro de la
-Universidad. Le dije a un tipo de matemáticas lo que 
-me había pasado y me respondió "eso es el karma, perro". 
-Ya yo sabía por qué lo decía, pero igual le pregunté por qué 
-me decía eso: tener IPhone es una ofensa a su persona.
-Eso es vivir en Bogotá. 
-</p>
-
-<p>
-Cualquier acontecimiento inevitablemente es analizado, en última
-instancia, bajo el 
-espectro Petrismo - Uribismo, dentro 
-del cual yo caigo dentro del último, <i>por tener IPhone</i>.
-Creo que todas las categorías analizadas hasta el momento 
-son compatibles con esta tesis: culto/popular, colonia/ciudad,
- robapuestos de Transmilenio/ gente que tiene ceder el puesto,
-graffiti/arte, sostenibilidad/materialidad, etc.
-</p>
-
-<p>
-Un caso de estudio más preciso es el drama de los colados en
-Transmilenio. Siempre habrá quien arguya que los colados son una
-condición natural inevitable: es la voz de la Historia que evidencia
-la injusticia sistémica. Una proposición con la 
-que podría estar de acuerdo, <b>solo si jamás hubiera visto 
-la sonrisa idiota de la gente que se cuela</b>. Es como que 
-te roben el IPhone, un chiste <i>light</i>. Pretendamos que nada 
-pasa, guardémoslo todo para la próxima marcha.  
-</p>
-
-
-<div class="figure">
-<p><img src="./img/tn/coladosTN2.jpg" alt="coladosTN2.jpg" /> 
-</p>
-<p><span class="figure-number">Figure 17:</span> Los colados, esos buenos samaritanos, se cagan de la risa en minifalda</p>
-</div>
-</div>
-</div>
-</div>
-
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Notas lecturas</h2>
-<div class="outline-text-2" id="text-5">
-</div><div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <a href="./lectura_1.html">Chorro</a></h3>
-</div>
-<div id="outline-container-sec-5-2" class="outline-3">
-<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <a href="./lectura_2.html">LeMoyne</a></h3>
-</div>
-<div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> <a href="./lectura3.html">Chicha</a></h3>
-</div>
-<div id="outline-container-sec-5-4" class="outline-3">
-<h3 id="sec-5-4"><span class="section-number-3">5.4</span> <a href="./plazas.html">Plazas</a></h3>
-</div>
-<div id="outline-container-sec-5-5" class="outline-3">
-<h3 id="sec-5-5"><span class="section-number-3">5.5</span> <a href="./plazas_yerbateras.html">Plazas2</a></h3>
-</div>
-</div>
-</div>
-<div id="postamble" class="status">
-<p class="date">Date: 2019-1</p>
-<p class="author">Author: Jonatan A. Ahumada Fernández</p>
-<p class="date">Created: 2019-05-13 Mon 22:20</p>
-<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.3.50.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
-<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
-</div>
-</body>
+    
+  </body>
 </html>
